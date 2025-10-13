@@ -20,7 +20,7 @@ exports.createAsset = async (req, res) => {
             name: body.name,
             status: body.status,
             type: body.type,
-            owner: body.owner
+            owner: body.owner,
         };
 
         const asset = await Assets.create(newAssetData);

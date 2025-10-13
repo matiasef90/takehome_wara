@@ -19,7 +19,7 @@ app.use('/api/auth', userRoutes);
 app.use(verifyToken);
 app.use('/api/assets', assetsRoutes);
 
-sequelize.sync({force: true})
+sequelize.sync({alter: true})
 connectDB() 
 app.listen(PORT, () => {
   console.log(`Servidor Express escuchando en el puerto ${PORT}`)

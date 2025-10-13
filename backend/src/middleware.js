@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (err) {
-        return res.status(403).json({ message: 'Token inválido o expirado.' });
+        return res.status(401).json({ message: 'Acceso denegado.' });
     }
 };
 
