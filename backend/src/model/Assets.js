@@ -29,13 +29,10 @@ const Assets = sequelize.define('Assets', {
         defaultValue: false,
         allowNull: false
     },
-    ownerId: {
-        type: DataTypes.UUID,
+    owner: {
+        type: DataTypes.STRING,
+        unique: false,
         allowNull: false,
-        references: {
-            model: 'users',
-            key: 'id',
-        }
     }
 
 }, {

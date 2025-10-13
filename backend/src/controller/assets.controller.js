@@ -3,9 +3,8 @@ const Assets = require('../model/Assets');
 
 exports.createAsset = async (req, res) => {
     try {
-        const ownerId = req.user.id; 
         const body = req.body;
-        if (!body || !body.name || !body.status || !body.type) {
+        if (!body || !body.name || !body.status || !body.type || !body.owner) {
             return res.status(400).json({ message: 'Faltan campos obligatorios.' });
         }
 
@@ -21,7 +20,7 @@ exports.createAsset = async (req, res) => {
             name: body.name,
             status: body.status,
             type: body.type,
-            ownerId: ownerId
+            owner: body.owner
         };
 
         const asset = await Assets.create(newAssetData);
@@ -81,7 +80,8 @@ exports.updateAsset = async (req, res) => {
             !req.body ||
             !req.body.name ||
             !req.body.status ||
-            !req.body.type
+            !req.body.type ||
+            !req.body.owner
         ) {return res.status(400).json({ message: 'Faltan campos obligatorios.' });}
 
         if (!assets.status.includes(req.body.status)) {
@@ -94,7 +94,6 @@ exports.updateAsset = async (req, res) => {
 
         const updatedData = { ...req.body };
         delete updatedData.id;
-        delete updatedData.ownerId; 
 
         await Assets.update(updatedData, {
             where: { id: id, isDeleted: false }
