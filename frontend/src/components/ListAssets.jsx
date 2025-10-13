@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AssetCard from './AssetCard';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { config } from '../config';
 
 const mockAssets = [
   { id: 1, nombre: "Servidor Principal AWS", status: "Activo", owner: "Equipo Infra", tipo: "Hardware" },
@@ -12,12 +15,35 @@ const mockAssets = [
 export default function AssetsList() {
 
   const [assets, _] = useState(mockAssets || []);
+  const { isLogin } = useContext(AuthContext)
+  const natigate = useNavigate()
+
+  useEffect(() => {
+    
+    if (!isLogin) natigate('/login')
+  }, [isLogin])
+  useEffect(() => {
+    fetch(`${config.API_URL}/assets`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      })
+  }, [])
+
   return (
     <>
-      <h1>Inventario de Activos 📊</h1>
-      {assets.map(asset => (
-        <AssetCard key={asset.id} asset={asset} />
-      ))}
+      {isLogin ? <section>
+        <h1>Inventario de Activos 📊</h1>
+        {assets.map(asset => (
+          <AssetCard key={asset.id} asset={asset} />
+        ))}
+      </section> : null}
     </>
   );
 };

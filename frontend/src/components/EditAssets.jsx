@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 export default function EditAssets() {
     const [formData, setFormData] = useState({
         nombre: '',
@@ -7,6 +8,12 @@ export default function EditAssets() {
         owner: '',
         tipo: 'Bug',
     });
+
+    const { isLogin } = useContext(AuthContext)
+    const natigate = useNavigate()
+    if (!isLogin) {
+        natigate('/login')
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
