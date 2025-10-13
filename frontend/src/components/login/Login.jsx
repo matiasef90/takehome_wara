@@ -12,7 +12,6 @@ export default function Login() {
   const [msgLogin, setMsgLogin] = useState('')
   const [disabled, setDisabled] = useState(true)
   const {isLogin, logIn} = useContext(AuthContext)
-  console.log(isLogin)
   const natigate = useNavigate()
   if (isLogin) {
     natigate('/')
@@ -72,13 +71,27 @@ export default function Login() {
   };
 
   return (<>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '12px',
+      maxWidth: '400px',
+      margin: '0 auto',
+      padding: '16px',
+      border: '1px solid #ccc',
+      borderRadius: '8px'
+    }}>
       <h2>Iniciar Sesión</h2>
 
       <label>
         Email:
       </label>
       <input
+        style={{
+          padding: '10px 20px',
+          borderRadius: '4px',
+          fontSize: '16px'
+        }}  
         type="email"
         id="email"
         name="email"
@@ -91,15 +104,43 @@ export default function Login() {
         Contraseña:
       </label>
       <input
+        style={{
+          padding: '10px 20px',
+          borderRadius: '4px',
+          fontSize: '16px'
+        }}
         type='password'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Mínimo 6 caracteres"
       />
-      <button disabled={disabled} onClick={handleRegister}>Registrarse</button>
-      <button disabled={disabled} type="submit">Ingresar</button>
+      <button 
+        disabled={disabled} 
+        style={{
+          backgroundColor: disabled ? '#ccc' : '#008CBA',
+          color: disabled ? '#666' : 'white',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          border: 'none',
+          padding: '10px 20px',
+          borderRadius: '4px',
+          fontSize: '16px',
+          marginBottom: '12px'
+        }}
+        onClick={handleRegister}>Registrarse</button>
+      <button 
+      style={{
+        backgroundColor: disabled ? '#ccc' : '#4CAF50',
+        color: disabled ? '#666' : 'white',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        border: 'none',
+        padding: '10px 20px',
+        borderRadius: '4px',
+        fontSize: '16px'
+      }}
+      disabled={disabled}
+      type="submit">Ingresar</button>
+      {msgRegister && <p style={{ color: error ? 'red' : 'green' }}>{msgRegister}</p>}
+      {msgLogin && <p style={{ color: 'red'}}>{msgLogin}</p>}
     </form>
-    {msgRegister && <p style={{ color: error ? 'red' : 'green' }}>{msgRegister}</p>}
-    {msgLogin && <p style={{ color: 'red'}}>{msgLogin}</p>}
   </>);
 };
