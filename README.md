@@ -42,6 +42,10 @@ El proyecto está configurado para un despliegue local rápido utilizando **Dock
         ```bash
         docker restart [id_contenedor_api]
         ```
+        Sabras que el contenedor se levanto correctamente si en la consola vez lo siguiente:
+    
+        ![output_api](image.png)
+
     * **Baja los contenedores:** Si el error persiste, elimina los contenedores y redes creadas por Compose:
         ```bash
         docker-compose down
