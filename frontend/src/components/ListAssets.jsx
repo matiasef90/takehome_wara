@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import AssetCard from './AssetCard';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { config } from '../config';
+const API_URL = import.meta.env.VITE_API_URL
 
 export default function AssetsList() {
 
@@ -15,7 +15,7 @@ export default function AssetsList() {
     if (!isLogin) navigate('/login')
   }, [isLogin])
   useEffect(() => {
-    fetch(`${config.API_URL}/assets`, {
+    fetch(`${API_URL}/assets`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

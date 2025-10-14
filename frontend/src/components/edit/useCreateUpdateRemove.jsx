@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { config } from "../../config";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+const API_URL = import.meta.env.VITE_API_URL
 
 export function useCreateUpdateRemove({
     id,
@@ -14,7 +14,7 @@ export function useCreateUpdateRemove({
     const navigate = useNavigate()
     function create(e) {
         e.preventDefault();
-        fetch(`${config.API_URL}/assets`, {
+        fetch(`${API_URL}/assets`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export function useCreateUpdateRemove({
 
     function update(e) {
         e.preventDefault();
-        fetch(`${config.API_URL}/assets/${id}`, {
+        fetch(`${API_URL}/assets/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export function useCreateUpdateRemove({
 
     function remove(e) {
         e.preventDefault();
-        fetch(`${config.API_URL}/assets/${id}`, {
+        fetch(`${API_URL}/assets/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

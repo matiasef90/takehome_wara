@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail } from './utils.js';
-import { config } from '../../config';
+const API_URL = import.meta.env.VITE_API_URL
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -13,9 +13,13 @@ export default function Login() {
   const [disabled, setDisabled] = useState(true)
   const {isLogin, logIn} = useContext(AuthContext)
   const natigate = useNavigate()
-  if (isLogin) {
-    natigate('/')
-  }
+
+  useEffect(() => {
+    if (isLogin) {
+      natigate('/')
+    }
+  }, [isLogin])
+
   useEffect(() => {
     setDisabled(true)
     if (validateEmail(email) && password.length >= 6) {
@@ -26,7 +30,7 @@ export default function Login() {
   const handleRegister = (e) => {
     e.preventDefault()
   
-    fetch(`${config.API_URL}/auth/register`, {
+    fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,7 +50,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`${config.API_URL}/auth/login`, {
+    fetch(`${API_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

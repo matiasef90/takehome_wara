@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { config } from "../../config"
 import { AuthContext } from "../../context/AuthContext"
+const API_URL = import.meta.env.VITE_API_URL
 
 export function useAssets({
     setName,
@@ -15,7 +15,7 @@ export function useAssets({
 
     useEffect(() => {
         if (!id) return
-        fetch(`${config.API_URL}/assets/${id}`, {
+        fetch(`${API_URL}/assets/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

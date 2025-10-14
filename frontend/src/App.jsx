@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 
 import AssetsList from "./components/ListAssets";
 import LoginForm from "./components/login/Login";
-import { AuthContext } from './context/AuthContext';
 import EditAssets from './components/edit/EditAssets';
 
 function App() {
