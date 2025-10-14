@@ -1,0 +1,29 @@
+services:
+  db:
+    build: ./database
+    container_name: database
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  api:
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: database
+      DB_USER: admin
+      DB_PASS: root
+      DB_NAME: mydatabase
+      DB_DIALECT: postgres
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "5173:5173"
+volumes:
+  db_data:
