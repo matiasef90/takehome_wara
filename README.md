@@ -40,7 +40,7 @@ El proyecto está configurado para un despliegue local rápido utilizando **Dock
 3.  **Solución de Problemas:** Si observas problemas de conexión o errores en los logs:
     * **Reiniciar contenedor:** reinicia el contenedor de la api backend:
         ```bash
-        docker docker restart [id_contenedor_api]
+        docker restart [id_contenedor_api]
         ```
     * **Baja los contenedores:** Si el error persiste, elimina los contenedores y redes creadas por Compose:
         ```bash
@@ -50,3 +50,4 @@ El proyecto está configurado para un despliegue local rápido utilizando **Dock
         ```bash
         docker-compose up -d
         ```
+4.  **Acceder al Login:** Si los contenedores se levantaron de forma correcta, podras acceder al [login](http://localhost:5173/login).
