@@ -1,10 +1,20 @@
-const { createAsset, getAllAssets, getAssetById, updateAsset, deleteAsset } = require("../controller/assets.controller")
+const {
+    createAssetController,
+    getAllAssetsController,
+    getAssetByIdController,
+    updateAssetController,
+    deleteAssetController,
+    getAllAssets,
+    getAssetById,
+    createAsset,
+    updateAsset,
+    deleteAsset
+} = require("../controller/assets.controller")
 const express = require("express")
 const router = express.Router()
-
-router.get("/", getAllAssets)
-router.get("/:id", getAssetById)
-router.post("/", createAsset)
-router.put("/:id", updateAsset)
-router.delete("/:id", deleteAsset)
+router.get("/", getAllAssetsController({getAllAssets}))
+router.get("/:id", getAssetByIdController({getAssetById}))
+router.post("/", createAssetController({createAsset}))
+router.put("/:id", updateAssetController({updateAsset}))
+router.delete("/:id", deleteAssetController({deleteAsset}))
 module.exports = router

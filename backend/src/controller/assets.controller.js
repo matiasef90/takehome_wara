@@ -1,7 +1,35 @@
 const { assets } = require('../../config');
 const Assets = require('../model/Assets');
 
-exports.createAsset = async (req, res) => {
+exports.createAsset = async({name, status, type, owner}) => {
+    return await Assets.create({name, status, type, owner});
+}
+
+exports.getAllAssets = async () => {
+    return await Assets.findAll({ where: { isDeleted: false } });
+}
+
+exports.getAssetById = async (id) => {
+    return await Assets.findOne({
+        where: { id, isDeleted: false },
+    });
+}
+
+exports.deleteAsset = async (id) => {
+    return await Assets.update(
+        { isDeleted: true },
+        { where: { id, isDeleted: false } }
+    );
+}
+
+exports.updateAsset = async ({id, name, status, type, owner}) => {
+    return await Assets.update(
+        { name, status, type, owner },
+        { where: { id, isDeleted: false } }
+    );
+}
+
+exports.createAssetController = ({createAsset}) => async (req, res) => {
     try {
         const body = req.body;
         if (!body || !body.name || !body.status || !body.type || !body.owner) {
@@ -23,7 +51,7 @@ exports.createAsset = async (req, res) => {
             owner: body.owner,
         };
 
-        const asset = await Assets.create(newAssetData);
+        const asset = await createAsset(newAssetData);
         return res.status(201).json(asset);
 
     } catch (error) {
@@ -35,11 +63,9 @@ exports.createAsset = async (req, res) => {
     }
 };
 
-exports.getAllAssets = async (req, res) => {
+exports.getAllAssetsController = ({getAllAssets}) => async (req, res) => {
     try {
-        const {count, rows} = await Assets.findAndCountAll({
-            where: { isDeleted: false },
-        });
+        const {count, rows} = await getAllAssets();
         return res.status(200).json({
             assets: rows,
             total: count
@@ -52,17 +78,14 @@ exports.getAllAssets = async (req, res) => {
     }
 };
 
-exports.getAssetById = async (req, res) => {
+exports.getAssetByIdController = ({getAssetById}) => async (req, res) => {
     try {
         const { id } = req.params;
         
         if (!id) {
             return res.status(400).json({ message: 'ID del activo es obligatorio.' });
         }
-
-        const asset = await Assets.findOne({
-            where: { id, isDeleted: false },
-        });
+        const asset = await getAssetById(id);
 
         if (!asset) {
             return res.status(404).json({ message: `Activo con ID ${id} no encontrado.` });
@@ -73,7 +96,7 @@ exports.getAssetById = async (req, res) => {
     }
 };
 
-exports.updateAsset = async (req, res) => {
+exports.updateAssetController = ({updateAsset, getAssetById}) => async (req, res) => {
     try {
         const { id } = req.params;
         if (
@@ -92,28 +115,22 @@ exports.updateAsset = async (req, res) => {
             return res.status(400).json({ message: 'Tipo no válido.' });
         }
 
-        const updatedData = { ...req.body };
-        delete updatedData.id;
+        const updatedData = { ...req.body, id };
 
-        await Assets.update(updatedData, {
-            where: { id: id, isDeleted: false }
-        });
+        await updateAsset(updatedData);
 
-        const updatedAsset = await Assets.findByPk(id);
+        const updatedAsset = await getAssetById(id);
         return res.status(200).json(updatedAsset);
     } catch (error) {
         return res.status(500).json({ message: 'Error al actualizar el activo.', error: error.message });
     }
 };
 
-exports.deleteAsset = async (req, res) => {
+exports.deleteAssetController = ({deleteAsset}) => async (req, res) => {
     try {
         const { id } = req.params;
 
-        await Assets.update(
-            { isDeleted: true },
-            { where: { id: id, isDeleted: false } }
-        );
+        await deleteAsset(id);
 
         return res.status(204).send();
     } catch (error) {
