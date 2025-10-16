@@ -6,7 +6,7 @@ exports.createAsset = async({name, status, type, owner}) => {
 }
 
 exports.getAllAssets = async () => {
-    return await Assets.findAll({ where: { isDeleted: false } });
+    return await Assets.findAndCountAll({ where: { isDeleted: false } });
 }
 
 exports.getAssetById = async (id) => {
